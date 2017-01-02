@@ -31,6 +31,14 @@ def vote_debug():
         answer = answer + "%d -> %d<br>" % (i, votes[i])
     return answer
 
+@app.route('/vote/result')
+def vote_result():
+    global votes
+    max_key=-1
+    for i in votes:
+        if max_key==-1 or votes[i]> votes[max_key]:
+            max_key = i
+    return str(max_key)
 
 
 if __name__ == '__main__':
