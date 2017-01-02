@@ -1,7 +1,25 @@
-from flask import Flask
+from flask import Flask,jsonify
+import json
 app = Flask(__name__)
 votes={}
 song_count=0
+song_data={}
+
+@app.route('/song_data/set/<int:id>/<name>/<album>/<artist>/<int:year>')
+def set_song_data(id,name,album,artist,year):
+    global song_data
+    song_data[int(id)] = {
+        'name': name,
+        'album': album,
+        'artist': artist,
+        'year': year
+    }
+    return "OK"
+
+@app.route('/song_data/get')
+def get_song_data():
+    global song_data
+    return json.dumps(song_data, indent=4)
 
 
 @app.route('/song_count/get')
