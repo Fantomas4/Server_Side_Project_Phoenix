@@ -1,5 +1,6 @@
 from flask import Flask,jsonify
 import json
+import datetime
 app = Flask(__name__)
 votes={}
 song_count=0
@@ -12,7 +13,8 @@ def set_song_data(id,name,album,artist,year):
         'name': name,
         'album': album,
         'artist': artist,
-        'year': year
+        'year': year,
+        'stats': [],
     }
     return "OK"
 
@@ -56,6 +58,13 @@ def vote_result():
     for i in votes:
         if max_key==-1 or votes[i]> votes[max_key]:
             max_key = i
+    song_data[max_key]['stats'].append({                    # KALOOOOOOOOOOOOOOOOOOOOOOO
+    #    'time': datetime.datetime.now(),                   #removed due to 'time': datetime.datetime.now() error!
+
+        'votes' : votes[max_key],
+        'percentage' : votes[max_key]/sum(votes) *100 if sum(votes) > 0 else 0,
+
+    })
     return str(max_key)
 
 
